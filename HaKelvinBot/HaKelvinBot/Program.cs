@@ -1,19 +1,45 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Discord;
 using Discord.WebSocket;
 
+using HaKelvinBot.Structures;
+
 namespace HaKelvinBot
 {
     public class Program
     {
+        #region Constants and Readonly
         private const string KEY = "NzM2MzgwNDU2OTc4ODc0Mzc4.Xxt9vg.Qz7wNxOtIORvGubqR7ZSZYh7Suo";
 
         private const ulong MAIN_CHANNEL_ID = 158732651010850816;
 
+        private readonly User MainUserShwang = new User() { Username = "ShwangCat" };
+
+        private readonly User MainUserKelvin = new User() { Username = "Dank Memes" };
+        #endregion
+
+        #region Fields
         private DiscordSocketClient client_;
 
+        private Dictionary<User, Tuple<long, int>> floodPreventionInfo_ = new Dictionary<User, Tuple<long, int>>();
+        #endregion
+
+        #region Properties
+        public Dictionary<User, Tuple<long, int>> FloodPreventionInfo
+        {
+            get
+            {
+                return floodPreventionInfo_; 
+            }
+            set { floodPreventionInfo_ = value; }
+        }
+
+        #endregion
+
+        #region Methods
         public static void Main(string[] args) =>
             new Program().MainAsyncTask().GetAwaiter().GetResult();
 
@@ -21,8 +47,11 @@ namespace HaKelvinBot
         {
             Console.WriteLine("Connecting!");
 
-            client_ = new DiscordSocketClient();
+            FloodPreventionInfo = new Dictionary<User, Tuple<long, int>>();
+            FloodPreventionInfo.Add(MainUserShwang, Tuple.Create(GetUnixTime(), 30));
+            FloodPreventionInfo.Add(MainUserKelvin, Tuple.Create(GetUnixTime(), 30));
 
+            client_ = new DiscordSocketClient();
             client_.Log += Log;
             client_.MessageReceived += Message_Received;
             
@@ -42,13 +71,12 @@ namespace HaKelvinBot
             await Task.Delay(-1);
         }
 
-
         private Task Message_Received(SocketMessage arg)
         {
-            ulong targetChannelId = arg.Channel.Id;
-            if (arg.Author.Username.Contains("Dank Memes"))
+            ulong targetChannelId = arg.Channel.Id; 
+            if (arg.Author.Username.Contains(MainUserKelvin.Username))
                 (client_.GetChannel(targetChannelId) as IMessageChannel).SendMessageAsync("Shut up Kelvin");
-            else if (arg.Author.Username.Contains("ShwangCat"))
+            else if (arg.Author.Username.Contains(MainUserShwang.Username))
                 (client_.GetChannel(targetChannelId) as IMessageChannel).SendMessageAsync("Howdy partner");
 
             return Task.CompletedTask;
@@ -60,6 +88,12 @@ namespace HaKelvinBot
             return Task.CompletedTask;
         }
 
+        private long GetUnixTime()
+        {
+            DateTimeOffset dto = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
+            return dto.ToUnixTimeSeconds();
+        }
 
+        #endregion
     }
 }
