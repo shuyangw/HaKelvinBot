@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -28,6 +28,8 @@ namespace HaKelvinBot
         #region Properties
         public Dictionary<string, Tuple<long, int>> FloodPreventionInfo { get; private set; }
 
+        public Dictionary<string, bool> AllowedResponses { get; private set; }
+
         #endregion
 
         #region Methods
@@ -39,8 +41,10 @@ namespace HaKelvinBot
             Console.WriteLine("Connecting!");
 
             FloodPreventionInfo = new Dictionary<string, Tuple<long, int>>();
-            FloodPreventionInfo.Add("EchoTask_KelvinEcho", Tuple.Create(GetUnixTime(), 30));
-            FloodPreventionInfo.Add("EchoTask_ShwangEcho", Tuple.Create(GetUnixTime(), 5));
+            AllowedResponses = new Dictionary<string, bool>();
+
+            AddTask("EchoTask_KelvinEcho", 30);
+            AddTask("EchoTask_ShwangEcho", 5);
 
             // Handle event listeners
             client_ = new DiscordSocketClient();
@@ -61,6 +65,12 @@ namespace HaKelvinBot
 
             // Block this task until the program is closed.
             await Task.Delay(-1);
+        }
+
+        private void AddTask(string taskName, int waitTime)
+        {
+            FloodPreventionInfo.Add(taskName, Tuple.Create(GetUnixTime() - waitTime, waitTime));
+            AllowedResponses.Add(taskName, true);
         }
 
         private Task Log(LogMessage msg)
