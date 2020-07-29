@@ -10,11 +10,14 @@ namespace HaKelvinBot
 {
     partial class Program
     {
+
         public Task SendMessage(ulong targetChannelId, string message)
         {
             Debug.Assert(client_ != null);
 
             (client_.GetChannel(targetChannelId) as IMessageChannel).SendMessageAsync(message);
+
+            Console.WriteLine(string.Format("Sending {0}", message));
             return Task.CompletedTask;
         }
 
@@ -22,6 +25,7 @@ namespace HaKelvinBot
         {
             int countOfSameNameChannels = 0;
             ulong desiredChannelId = 0;
+
             foreach (var server in client_.Guilds)
             {
                 foreach (var channel in server.TextChannels)
