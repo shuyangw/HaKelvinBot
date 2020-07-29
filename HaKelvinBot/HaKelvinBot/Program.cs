@@ -4,17 +4,16 @@ using System.Threading.Tasks;
 
 using Discord;
 using Discord.WebSocket;
+using Discord.Net;
 
 using HaKelvinBot.Structures;
 
 namespace HaKelvinBot
 {
-    public class Program
+    partial class Program
     {
         #region Constants and Readonly
         private const string KEY = "NzM2MzgwNDU2OTc4ODc0Mzc4.Xxt9vg.Qz7wNxOtIORvGubqR7ZSZYh7Suo";
-
-        private const ulong MAIN_CHANNEL_ID = 158732651010850816;
 
         private readonly User MainUserShwang = new User() { Username = "ShwangCat" };
 
@@ -24,11 +23,11 @@ namespace HaKelvinBot
         #region Fields
         private DiscordSocketClient client_;
 
-        private Dictionary<User, Tuple<long, int>> floodPreventionInfo_ = new Dictionary<User, Tuple<long, int>>();
+        private Dictionary<string, Tuple<long, int>> floodPreventionInfo_;
         #endregion
 
         #region Properties
-        public Dictionary<User, Tuple<long, int>> FloodPreventionInfo
+        public Dictionary<string, Tuple<long, int>> FloodPreventionInfo
         {
             get
             {
@@ -47,10 +46,11 @@ namespace HaKelvinBot
         {
             Console.WriteLine("Connecting!");
 
-            FloodPreventionInfo = new Dictionary<User, Tuple<long, int>>();
-            FloodPreventionInfo.Add(MainUserShwang, Tuple.Create(GetUnixTime(), 30));
-            FloodPreventionInfo.Add(MainUserKelvin, Tuple.Create(GetUnixTime(), 30));
+            FloodPreventionInfo = new Dictionary<string, Tuple<long, int>>();
+            FloodPreventionInfo.Add("EchoTask1", Tuple.Create(GetUnixTime(), 30));
+            FloodPreventionInfo.Add("EchoTask2", Tuple.Create(GetUnixTime(), 30));
 
+            // Handle event listeners
             client_ = new DiscordSocketClient();
             client_.Log += Log;
             client_.MessageReceived += Message_Received;
@@ -69,17 +69,6 @@ namespace HaKelvinBot
 
             // Block this task until the program is closed.
             await Task.Delay(-1);
-        }
-
-        private Task Message_Received(SocketMessage arg)
-        {
-            ulong targetChannelId = arg.Channel.Id; 
-            if (arg.Author.Username.Contains(MainUserKelvin.Username))
-                (client_.GetChannel(targetChannelId) as IMessageChannel).SendMessageAsync("Shut up Kelvin");
-            else if (arg.Author.Username.Contains(MainUserShwang.Username))
-                (client_.GetChannel(targetChannelId) as IMessageChannel).SendMessageAsync("Howdy partner");
-
-            return Task.CompletedTask;
         }
 
         private Task Log(LogMessage msg)
