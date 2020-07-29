@@ -2,6 +2,7 @@
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,11 +14,32 @@ namespace HaKelvinBot
         {
             ulong targetChannelId = arg.Channel.Id;
             if (arg.Author.Username.Contains(MainUserKelvin.Username))
-                SendMessage(targetChannelId, "Shut up Kelvin");
+            {
+                if (FloodValid("EchoTask_KelvinEcho"))
+                    SendMessage(targetChannelId, "Shut up Kelvin");
+            }
             else if (arg.Author.Username.Contains(MainUserShwang.Username))
-                SendMessage(targetChannelId, "Howdy partner");
-
+            {
+                if (FloodValid("EchoTask_ShwangEcho"))
+                    SendMessage(targetChannelId, "Howdy partner");
+            }
             return Task.CompletedTask;
+        }
+
+        private bool FloodValid(string taskName)
+        {
+            Debug.Assert(FloodPreventionInfo != null); 
+
+            if (!FloodPreventionInfo.ContainsKey(taskName))
+                return false;
+
+            long prevTime = FloodPreventionInfo[taskName].Item1;
+            long currTime = GetUnixTime();
+            bool val = (currTime - prevTime >= FloodPreventionInfo[taskName].Item2);
+            if (val)
+                FloodPreventionInfo[taskName] = Tuple.Create(currTime, FloodPreventionInfo[taskName].Item2);
+           
+            return val;
         }
     }
 }

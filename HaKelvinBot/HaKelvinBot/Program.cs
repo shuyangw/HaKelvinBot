@@ -23,18 +23,10 @@ namespace HaKelvinBot
         #region Fields
         private DiscordSocketClient client_;
 
-        private Dictionary<string, Tuple<long, int>> floodPreventionInfo_;
         #endregion
 
         #region Properties
-        public Dictionary<string, Tuple<long, int>> FloodPreventionInfo
-        {
-            get
-            {
-                return floodPreventionInfo_; 
-            }
-            set { floodPreventionInfo_ = value; }
-        }
+        public Dictionary<string, Tuple<long, int>> FloodPreventionInfo { get; private set; }
 
         #endregion
 
@@ -47,8 +39,8 @@ namespace HaKelvinBot
             Console.WriteLine("Connecting!");
 
             FloodPreventionInfo = new Dictionary<string, Tuple<long, int>>();
-            FloodPreventionInfo.Add("EchoTask1", Tuple.Create(GetUnixTime(), 30));
-            FloodPreventionInfo.Add("EchoTask2", Tuple.Create(GetUnixTime(), 30));
+            FloodPreventionInfo.Add("EchoTask_KelvinEcho", Tuple.Create(GetUnixTime(), 30));
+            FloodPreventionInfo.Add("EchoTask_ShwangEcho", Tuple.Create(GetUnixTime(), 5));
 
             // Handle event listeners
             client_ = new DiscordSocketClient();
@@ -79,8 +71,8 @@ namespace HaKelvinBot
 
         private long GetUnixTime()
         {
-            DateTimeOffset dto = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
-            return dto.ToUnixTimeSeconds();
+            long epoch = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
+            return epoch;
         }
 
         #endregion
