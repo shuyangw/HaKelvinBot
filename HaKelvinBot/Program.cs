@@ -17,8 +17,14 @@ namespace HaKelvinBot
     /// </summary>
     partial class Program
     {
+        #region Constants, Readonly and Enums
+        enum Verbosity : ushort
+        {
+            None = 0,
+            Regular = 1,
+            High = 2
+        }
 
-        #region Constants and Readonly
         private readonly User MainUserShwang = new User() { Username = "ShwangCat" };
 
         private readonly User MainUserKelvin = new User() { Username = "Dank Memes" };

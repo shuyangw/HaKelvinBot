@@ -41,7 +41,9 @@ namespace HaKelvinBot
         {
             switch (message)
             {
-
+                case "help":
+                    AdminSendHelp();
+                    break;
                 default:
                     break;
             }
