@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 using Discord;
 using Discord.WebSocket;
@@ -16,6 +17,7 @@ namespace HaKelvinBot
     /// </summary>
     partial class Program
     {
+
         #region Constants and Readonly
         private readonly User MainUserShwang = new User() { Username = "ShwangCat" };
 
