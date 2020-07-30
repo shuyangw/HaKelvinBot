@@ -1,7 +1,10 @@
-
-HaKelvinBot/.vs/
+x64/
 
 .vs/
+
+CPPTensorflow/x64/
+
+HaKelvinBot/.vs/
 
 HaKelvinBot/bin/
 
