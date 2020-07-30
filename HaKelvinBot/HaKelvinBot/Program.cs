@@ -7,14 +7,13 @@ using Discord.WebSocket;
 using Discord.Net;
 
 using HaKelvinBot.Structures;
+using HaKelvinBot.Util;
 
 namespace HaKelvinBot
 {
     partial class Program
     {
         #region Constants and Readonly
-        private const string KEY = "NzM2MzgwNDU2OTc4ODc0Mzc4.Xxt9vg.Qz7wNxOtIORvGubqR7ZSZYh7Suo";
-
         private readonly User MainUserShwang = new User() { Username = "ShwangCat" };
 
         private readonly User MainUserKelvin = new User() { Username = "Dank Memes" };
@@ -38,6 +37,9 @@ namespace HaKelvinBot
 
         public async Task MainAsyncTask()
         {
+            Console.WriteLine("Ingesting config file...");
+            Configuration.Load("config.yaml");
+
             Console.WriteLine("Connecting!");
 
             FloodPreventionInfo = new Dictionary<string, Tuple<long, int>>();
@@ -50,15 +52,10 @@ namespace HaKelvinBot
             client_ = new DiscordSocketClient();
             client_.Log += Log;
             client_.MessageReceived += Message_Received;
-            
+
             //  You can assign your bot token to a string, and pass that in to connect.
             //  This is, however, insecure, particularly if you plan to have your code hosted in a public repository.
-            var token = KEY;
-
-            // Some alternative options would be to keep your token in an Environment Variable or a standalone file.
-            // var token = Environment.GetEnvironmentVariable("NameOfYourEnvironmentVariable");
-            // var token = File.ReadAllText("token.txt");
-            // var token = JsonConvert.DeserializeObject<AConfigurationClass>(File.ReadAllText("config.json")).Token;
+            var token = Configuration.Get("key");
 
             await client_.LoginAsync(TokenType.Bot, token);
             await client_.StartAsync();
