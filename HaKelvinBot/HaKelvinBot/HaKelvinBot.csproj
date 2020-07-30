@@ -8,6 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.2.0" />
+    <PackageReference Include="YamlDotNet" Version="8.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="config.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

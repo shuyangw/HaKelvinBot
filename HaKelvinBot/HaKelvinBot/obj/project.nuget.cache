@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "kDzdJXdJLZwYj6aOy6WLdMmrovlsfkOIfG8WO+LKPyPasoKHZWbXy72yL0qs/qT+8WeMVNsorx0fHiUMk6CzlQ==",
+  "dgSpecHash": "fWkNg40chvbKcGyMm0G17b5HBnlXBzrgvFa/H1Reo5l5M5IZlYDdHdQ9FhnybDABH6XNsdv1bVZTXgt1n3oxbg==",
   "success": true,
   "projectFilePath": "C:\\Users\\qwqw1\\Dropbox\\cs\\github\\HaKelvinBot\\HaKelvinBot\\HaKelvinBot\\HaKelvinBot.csproj",
   "expectedPackageFiles": [
@@ -28,7 +28,8 @@
     "C:\\Users\\qwqw1\\.nuget\\packages\\system.runtime.extensions\\4.3.0\\system.runtime.extensions.4.3.0.nupkg.sha512",
     "C:\\Users\\qwqw1\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
     "C:\\Users\\qwqw1\\.nuget\\packages\\system.threading\\4.3.0\\system.threading.4.3.0.nupkg.sha512",
-    "C:\\Users\\qwqw1\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512"
+    "C:\\Users\\qwqw1\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
+    "C:\\Users\\qwqw1\\.nuget\\packages\\yamldotnet\\8.1.2\\yamldotnet.8.1.2.nupkg.sha512"
   ],
   "logs": []
 }

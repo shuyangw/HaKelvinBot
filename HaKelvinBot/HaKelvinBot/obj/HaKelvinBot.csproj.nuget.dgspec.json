@@ -45,6 +45,10 @@
             "Discord.Net": {
               "target": "Package",
               "version": "[2.2.0, )"
+            },
+            "YamlDotNet": {
+              "target": "Package",
+              "version": "[8.1.2, )"
             }
           },
           "imports": [
