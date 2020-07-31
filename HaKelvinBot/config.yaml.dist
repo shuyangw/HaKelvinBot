@@ -1,5 +1,0 @@
-﻿#Config file, distribution version
-#Copy your API key into the field below to use the bot
-
-init:
-  key: --key goes here--
