@@ -14,7 +14,7 @@ namespace HaKelvinBot.Util
 
         public static void Load(string fileName)
         {
-            Console.WriteLine("Ingesting config file...");
+            Logger.Info("Ingesting config file...");
             string wantedPath = AppContext.BaseDirectory;
             if (!File.Exists(Path.Combine(wantedPath, fileName)))
                 return;
@@ -31,7 +31,7 @@ namespace HaKelvinBot.Util
                 foreach(var item in initMapping)
                     Values.Add(item.Key.ToString().ToLowerInvariant(), item.Value.ToString());
             }
-            Console.WriteLine("Successfully loaded config file!");
+            Logger.Info("Successfully loaded config file!");
         }
 
         public static string Get(string key)
