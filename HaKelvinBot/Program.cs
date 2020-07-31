@@ -43,9 +43,9 @@ namespace HaKelvinBot
         public async Task MainAsyncTask()
         {
             Configuration.Load("config.yaml");
+
             Logger.LoggerVerbosity = Verbosity.High;
             Logger.CreateLogFile();
-
             Logger.Info("Connecting!");
 
             FloodPreventionInfo = new Dictionary<string, Tuple<long, int>>();

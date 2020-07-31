@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -19,7 +20,7 @@ namespace HaKelvinBot
         public static Verbosity LoggerVerbosity { get; set; }
 
         private static string LogFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "botlog.log");
-        
+
         public static void Error(string msg)
         {
             string toPrint = string.Format("{0} ERROR: {1}", GetCurrentTime(), msg);
@@ -50,7 +51,7 @@ namespace HaKelvinBot
 
         public static void Info(string msg)
         {
-            string toPrint = string.Format("{0} INFO: {1}", GetCurrentTime(), msg);
+            string toPrint = string.Format("[{0}] INFO: {1}", GetCurrentTime(), msg);
             WriteToLog(toPrint);
 
             if (LoggerVerbosity != Verbosity.None)
@@ -59,8 +60,8 @@ namespace HaKelvinBot
 
         private static void WriteToLog(string msg)
         {
-            using (StreamWriter sw = new StreamWriter(LogFilePath))
-                sw.WriteLineAsync(msg);
+            using (StreamWriter sw = File.AppendText(LogFilePath))
+                sw.WriteLine(msg);
         }
 
         public static void CreateLogFile()
@@ -71,8 +72,8 @@ namespace HaKelvinBot
 
         private static string GetCurrentTime()
         {
-            DateTime time = new DateTime();
-            return time.ToString("en-US");
+            DateTime time = DateTime.Now;
+            return time.ToString(new CultureInfo("en-US"));
         }
     }
 }
