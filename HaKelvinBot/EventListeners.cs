@@ -12,12 +12,23 @@ namespace HaKelvinBot
     {
         private const string ADMIN_SERVER_NAME = "BotTesting";
 
+        /// <summary>
+        /// Detects the event where a message is sent in any channel that is visible to the bot.
+        /// </summary>
+        /// <param name="arg">The message that was sent.</param>
+        /// <returns>An indication that the async task is complete.</returns>
+        /// TODO: Cleanup, modularize further and reduce if statements
         private Task Message_Received(SocketMessage arg)
         {
-            if (((arg.Channel) as SocketGuildChannel).Guild.Name == ADMIN_SERVER_NAME && arg.Content[0] == '!')
-            { 
-                //Remove exclamation mark
-                ParseAdminMessage(arg.Content.Replace("!", ""));
+            if (arg.Content[0] == '!')
+            {
+                if (((arg.Channel) as SocketGuildChannel).Guild.Name == ADMIN_SERVER_NAME)
+                    ParseAdminServerMessage(arg.Content.Replace("!", ""));
+                else
+                {
+
+                }
+
                 goto Finish;
             }
 
@@ -37,7 +48,19 @@ namespace HaKelvinBot
                 return Task.CompletedTask;
         }
 
+        #region Parsing messages
         private void ParseAdminMessage(string message)
+        {
+            switch (message)
+            {
+                case "help":
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ParseAdminServerMessage(string message)
         {
             switch (message)
             {
@@ -69,5 +92,6 @@ namespace HaKelvinBot
            
             return val;
         }
+        #endregion
     }
 }
