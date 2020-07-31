@@ -25,7 +25,7 @@ namespace HaKelvinBot
         {
             if (AdminChannelId == 0)
             {
-                foreach (var server in client_.Guilds)
+                foreach (var server in Client.Guilds)
                 {
                     if (server.Name == ADMIN_SERVER_NAME)
                     {
@@ -44,9 +44,9 @@ namespace HaKelvinBot
 
         public Task SendMessage(ulong targetChannelId, string message)
         {
-            Debug.Assert(client_ != null);
+            Debug.Assert(Client != null);
 
-            (client_.GetChannel(targetChannelId) as IMessageChannel).SendMessageAsync(message);
+            (Client.GetChannel(targetChannelId) as IMessageChannel).SendMessageAsync(message);
 
             Console.WriteLine(string.Format("Sending {0}", message));
             return Task.CompletedTask;
@@ -54,12 +54,12 @@ namespace HaKelvinBot
 
         public Task SendMessage(string channelName, string message)
         {
-            Debug.Assert(client_ != null);
+            Debug.Assert(Client != null);
 
             int countOfSameNameChannels = 0;
             ulong desiredChannelId = 0;
 
-            foreach (var server in client_.Guilds)
+            foreach (var server in Client.Guilds)
             {
                 foreach (var channel in server.TextChannels)
                 {

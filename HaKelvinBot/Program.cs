@@ -17,21 +17,13 @@ namespace HaKelvinBot
     /// </summary>
     partial class Program
     {
-        #region Constants, Readonly and Enums
-        enum Verbosity : ushort
-        {
-            None = 0,
-            Regular = 1,
-            High = 2
-        }
-
+        #region Constants and Readonly
         private readonly User MainUserShwang = new User() { Username = "ShwangCat" };
 
         private readonly User MainUserKelvin = new User() { Username = "Dank Memes" };
         #endregion
 
         #region Fields
-        private DiscordSocketClient client_;
 
         #endregion
 
@@ -39,6 +31,8 @@ namespace HaKelvinBot
         public Dictionary<string, Tuple<long, int>> FloodPreventionInfo { get; private set; }
 
         public Dictionary<string, bool> AllowedResponses { get; private set; }
+
+        public DiscordSocketClient Client { get; private set; }
 
         #endregion
 
@@ -49,8 +43,10 @@ namespace HaKelvinBot
         public async Task MainAsyncTask()
         {
             Configuration.Load("config.yaml");
+            Logger.LoggerVerbosity = Verbosity.High;
+            Logger.CreateLogFile();
 
-            Console.WriteLine("Connecting!");
+            Logger.Info("Connecting!");
 
             FloodPreventionInfo = new Dictionary<string, Tuple<long, int>>();
             AllowedResponses = new Dictionary<string, bool>();
@@ -59,16 +55,16 @@ namespace HaKelvinBot
             AddTask("EchoTask_ShwangEcho", 5);
 
             // Handle event listeners
-            client_ = new DiscordSocketClient();
-            client_.Log += Log;
-            client_.MessageReceived += Message_Received;
+            Client = new DiscordSocketClient();
+            Client.Log += Log;
+            Client.MessageReceived += Message_Received;
 
             //  You can assign your bot token to a string, and pass that in to connect.
             //  This is, however, insecure, particularly if you plan to have your code hosted in a public repository.
             var token = Configuration.Get("key");
 
-            await client_.LoginAsync(TokenType.Bot, token);
-            await client_.StartAsync();
+            await Client.LoginAsync(TokenType.Bot, token);
+            await Client.StartAsync();
 
             // Block this task until the program is closed.
             await Task.Delay(-1);
@@ -82,7 +78,7 @@ namespace HaKelvinBot
 
         private Task Log(LogMessage msg)
         {
-            Console.WriteLine(msg.ToString());
+            Logger.Info(msg.ToString());
             return Task.CompletedTask;
         }
 
