@@ -44,5 +44,11 @@ namespace HaKelvinBot.Util
 
             return distances[lengthA, lengthB];
         }
+
+        public static long GetUnixTime()
+        {
+            long epoch = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
+            return epoch;
+        }
     }
 }

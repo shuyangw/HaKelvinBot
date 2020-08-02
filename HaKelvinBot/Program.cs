@@ -30,11 +30,9 @@ namespace HaKelvinBot
         #endregion
 
         #region Properties
-        public Dictionary<string, Tuple<long, int>> FloodPreventionInfo { get; private set; }
-
-        public Dictionary<string, bool> AllowedResponses { get; private set; }
-
         public DiscordSocketClient Client { get; private set; }
+
+        public Tasking TaskHandler { get; private set; }
 
         #endregion
 
@@ -44,18 +42,37 @@ namespace HaKelvinBot
 
         public async Task MainAsyncTask()
         {
+            //Load configuration file
             Configuration.Load("config.yaml");
 
+            //Initialize logger
             Logger.LoggerVerbosity = Verbosity.High;
             Logger.CreateLogFile();
             Logger.Info("Connecting!");
 
-            FloodPreventionInfo = new Dictionary<string, Tuple<long, int>>();
-            AllowedResponses = new Dictionary<string, bool>();
+            //Initialize Tasking mechanism
+            TaskHandler = new Tasking();
 
-            AddTask("EchoTask_KelvinEcho", 30);
-            AddTask("EchoTask_ShwangEcho", 30);
-            AddTask("EchoTask_AustinEcho", 30);
+            //AddTask("EchoTask_KelvinEcho", 30);
+            //AddTask("EchoTask_ShwangEcho", 30);
+            //AddTask("EchoTask_AustinEcho", 30);
+
+            EchoTask KelvinEcho = new EchoTask()
+            {
+                Name = MainUserKelvin.Username, 
+                Response = "Shut up Kelvin",
+                MinTime = 30
+            };
+
+            EchoTask ShwangEcho = new EchoTask()
+            {
+                Name = MainUserShwang.Username,
+                Response = "Howdy partner",
+                MinTime = 30
+            };
+
+            TaskHandler.AddTask(KelvinEcho);
+            TaskHandler.AddTask(ShwangEcho);
 
             // Handle event listeners
             Client = new DiscordSocketClient();
@@ -73,24 +90,11 @@ namespace HaKelvinBot
             await Task.Delay(-1);
         }
 
-        private void AddTask(string taskName, int waitTime)
-        {
-            FloodPreventionInfo.Add(taskName, Tuple.Create(GetUnixTime() - waitTime, waitTime));
-            AllowedResponses.Add(taskName, true);
-        }
-
         private Task Log(LogMessage msg)
         {
             Logger.Info(msg.ToString());
             return Task.CompletedTask;
         }
-
-        private long GetUnixTime()
-        {
-            long epoch = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
-            return epoch;
-        }
-
         #endregion
     }
 }
