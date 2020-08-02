@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HaKelvinBot.Util
 {
-    public class Utilities
+    public class ClientUtil
     {
         public static DiscordSocketClient Client { get; private set; }
 
@@ -19,6 +19,7 @@ namespace HaKelvinBot.Util
         public static string GetChannelById (ulong channelId, ulong serverId)
         {
             return null;
+        
         }
     }
 }
