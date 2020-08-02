@@ -23,7 +23,6 @@ namespace HaKelvinBot
         private readonly User MainUserKelvin = new User() { Username = "Dank Memes" };
 
         private readonly User MainUserAustin = new User() { Username = "Zyno" };
-
         #endregion
 
         #region Fields

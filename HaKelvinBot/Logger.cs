@@ -70,7 +70,7 @@ namespace HaKelvinBot
                 File.Create(LogFilePath);
 
             //Write two blank lines to the log to denoter the start of a new log file
-            using (StreamWriter sw = File.AppendText(Path.Combine(wantedPath, fileName)))
+            using (StreamWriter sw = File.AppendText(LogFilePath))
                 sw.Write("\n\n");
         }
 
