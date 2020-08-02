@@ -20,8 +20,10 @@ namespace HaKelvinBot
         /// TODO: Cleanup, modularize further and reduce if statements
         private Task Message_Received(SocketMessage arg)
         {
+            //If the detected message was a command
             if (arg.Content[0] == '!')
             {
+                //If the detected command was sent in the admin server
                 if (((arg.Channel) as SocketGuildChannel).Guild.Name == ADMIN_SERVER_NAME)
                     ParseAdminServerMessage(arg.Content.Replace("!", ""));
                 else
@@ -29,7 +31,7 @@ namespace HaKelvinBot
 
                 }
 
-                goto Finish;
+                goto Finish; 
             }
 
             ulong targetChannelId = arg.Channel.Id;
@@ -55,6 +57,10 @@ namespace HaKelvinBot
         }
 
         #region Parsing messages
+        /// <summary>
+        /// Parses commands that are not sent in the admin server.
+        /// </summary>
+        /// <param name="message">The message that is to be parsed.</param>
         private void ParseAdminMessage(string message)
         {
             switch (message)

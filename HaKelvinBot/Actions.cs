@@ -48,7 +48,7 @@ namespace HaKelvinBot
 
             (Client.GetChannel(targetChannelId) as IMessageChannel).SendMessageAsync(message);
 
-            Logger.Info(string.Format("Sending {0}", message));
+            Logger.Info(string.Format("SENDING {0}", message));
             return Task.CompletedTask;
         }
 

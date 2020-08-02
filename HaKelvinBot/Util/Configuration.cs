@@ -36,6 +36,12 @@ namespace HaKelvinBot.Util
 
         public static string Get(string key)
         {
+            if (Values == null)
+            {
+                Logger.Error("Config VALUES dictionary was null!");
+                return null;
+            }
+
             key = key.ToLowerInvariant();
             if (Values.ContainsKey(key))
                 return Values[key];
