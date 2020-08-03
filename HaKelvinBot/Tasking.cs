@@ -60,7 +60,7 @@ namespace HaKelvinBot
             if (task == null)
                 return false;
 
-            return task.Status == TaskStatus.Active && FloodValid(identifier);
+            return task.Status == BotTaskStatus.Active && FloodValid(identifier);
         }
 
         public bool FloodValid(string identifier)

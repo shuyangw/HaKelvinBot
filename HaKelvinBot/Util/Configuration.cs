@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HaKelvinBot.Structures;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,15 +11,16 @@ namespace HaKelvinBot.Util
 {
     public class Configuration
     {
-        private static Dictionary<string, string> Values { get; set; }
+        private static Dictionary<string, string> ConfigValues { get; set; }
 
-        public static void Load(string fileName)
+        private static readonly string AppPath = AppContext.BaseDirectory;
+
+        public static void LoadConfig(string fileName)
         {
             Logger.Info("Ingesting config file...");
-            string wantedPath = AppContext.BaseDirectory;
-            if (!File.Exists(Path.Combine(wantedPath, fileName)))
+            if (!File.Exists(Path.Combine(AppPath, fileName)))
                 return;
-            Values = new Dictionary<string, string>();
+            ConfigValues = new Dictionary<string, string>();
 
             using (StreamReader sr = new StreamReader(fileName))
             {
@@ -29,24 +31,38 @@ namespace HaKelvinBot.Util
                 var initMapping = (YamlMappingNode)mapping.Children[new YamlScalarNode("init")];
 
                 foreach(var item in initMapping)
-                    Values.Add(item.Key.ToString().ToLowerInvariant(), item.Value.ToString());
+                    ConfigValues.Add(item.Key.ToString().ToLowerInvariant(), item.Value.ToString());
             }
             Logger.Info("Successfully loaded config file!");
         }
 
-        public static string Get(string key)
+        public static string GetConfig(string key)
         {
-            if (Values == null)
+            if (ConfigValues == null || ConfigValues.Count == 0)
             {
                 Logger.Error("Config VALUES dictionary was null!");
                 return null;
             }
 
             key = key.ToLowerInvariant();
-            if (Values.ContainsKey(key))
-                return Values[key];
+            if (ConfigValues.ContainsKey(key))
+                return ConfigValues[key];
             else
                 return null;
+        }
+
+        public static void LoadPersistentTasks(string fileName)
+        {
+
+        }
+
+        public static void AddPersistentTask(BotTask task, string serverName)
+        {
+            string fileName = Path.Combine(AppPath, "serverName.json");
+            if (!File.Exists(fileName))
+                File.Create(fileName);
+        
+            
         }
     }
 }

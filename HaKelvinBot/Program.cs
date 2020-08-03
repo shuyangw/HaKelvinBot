@@ -42,8 +42,11 @@ namespace HaKelvinBot
 
         public async Task MainAsyncTask()
         {
-            //Load configuration file
-            Configuration.Load("config.yaml");
+            //Load main configuration file
+            Configuration.LoadConfig("config.yaml");
+
+            //Load persistent Tasks
+
 
             //Initialize logger
             Logger.LoggerVerbosity = Verbosity.High;
@@ -52,10 +55,6 @@ namespace HaKelvinBot
 
             //Initialize Tasking mechanism
             TaskHandler = new Tasking();
-
-            //AddTask("EchoTask_KelvinEcho", 30);
-            //AddTask("EchoTask_ShwangEcho", 30);
-            //AddTask("EchoTask_AustinEcho", 30);
 
             EchoTask KelvinEcho = new EchoTask()
             {
@@ -81,7 +80,7 @@ namespace HaKelvinBot
 
             //  You can assign your bot token to a string, and pass that in to connect.
             //  This is, however, insecure, particularly if you plan to have your code hosted in a public repository.
-            var token = Configuration.Get("key");
+            var token = Configuration.GetConfig("key");
 
             await Client.LoginAsync(TokenType.Bot, token);
             await Client.StartAsync();
