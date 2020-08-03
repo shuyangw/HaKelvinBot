@@ -46,24 +46,8 @@ namespace HaKelvinBot
             ulong targetChannelId = arg.Channel.Id;
             string sourceUsername = arg.Author.Username;
 
-            //if (arg.Author.Username.Contains(MainUserKelvin.Username))
-            //{
-            //    if (TaskHandler.Allowed("EchoTask_KelvinEcho"))
-            //        SendMessage(targetChannelId, "Shut up Kelvin");
-            //}
-            ////else if (arg.Author.Username.Contains(MainUserShwang.Username))
-            ////{
-            ////    if (Allow("EchoTask_ShwangEcho"))
-            ////        SendMessage(targetChannelId, "Howdy partner");
-            ////}
-            //else if (arg.Author.Username.Contains(MainUserAustin.Username))
-            //{
-            //    if (TaskHandler.Allowed("EchoTask_ShwangEcho"))
-            //        SendMessage(targetChannelId, "Ha furry");
-            //}
-
             //Determine if there is an EchoTask by the username
-            if (TaskHandler.ContainsTask(sourceUsername))
+            if (TaskHandler.ContainsTask(sourceUsername) && TaskHandler.Lookup(sourceUsername).Status == BotTaskStatus.Active)
             {
                 if (TaskHandler.Allowed(sourceUsername))
                     SendMessage(targetChannelId, (TaskHandler.Lookup(sourceUsername) as EchoTask).Response);
@@ -96,27 +80,6 @@ namespace HaKelvinBot
                     break;
             }
         }
-
-        //private bool Allow(string taskName)
-        //{
-        //    return FloodValid(taskName) && AllowedResponses[taskName];
-        //}
-
-        //private bool FloodValid(string taskName)
-        //{
-        //    Debug.Assert(FloodPreventionInfo != null); 
-
-        //    if (!FloodPreventionInfo.ContainsKey(taskName))
-        //        return false;
-
-        //    long prevTime = FloodPreventionInfo[taskName].Item1;
-        //    long currTime = GetUnixTime();
-        //    bool val = (currTime - prevTime >= FloodPreventionInfo[taskName].Item2);
-        //    if (val)
-        //        FloodPreventionInfo[taskName] = Tuple.Create(currTime, FloodPreventionInfo[taskName].Item2);
-           
-        //    return val;
-        //}
         #endregion
     }
 }
