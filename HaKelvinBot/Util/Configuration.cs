@@ -1,4 +1,6 @@
 ﻿using HaKelvinBot.Structures;
+using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +13,8 @@ namespace HaKelvinBot.Util
 {
     public class Configuration
     {
+        static Logger Logger = LogManager.GetCurrentClassLogger();
+
         private static Dictionary<string, string> ConfigValues { get; set; }
 
         private static readonly string AppPath = AppContext.BaseDirectory;
@@ -61,8 +65,13 @@ namespace HaKelvinBot.Util
             string fileName = Path.Combine(AppPath, "serverName.json");
             if (!File.Exists(fileName))
                 File.Create(fileName);
-        
-            
+
+            try
+            {
+                var rawText = File.ReadAllText(fileName);
+                var jsonAsDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(rawText);
+            }
+            catch (Exception ex) { Logger.Error(ex); }
         }
     }
 }
